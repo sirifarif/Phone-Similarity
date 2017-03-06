@@ -1,44 +1,31 @@
 #!/bin/bash/python3
 
 from scipy import spatial
+import csv
+import numpy as np
 
 class phone:
     def __init__(self, phone):
-        # 
-        VOWELS = ['A', 'E','I','O','U', 'N']
-        CONSONANTAL = ['X','Y','Z']
-        #APPROXIMANT = []
-        #SONORANT = []
-        VOICED = ['A' ,'Z', 'U', 'N']
-        #CONSTRGL = []
-        #SPREADGL = []
-        
-        #MANNER
-        NASAL = ['N', 'M']
-        #CONTINUANT = []
-        #STRIDENT = []
-        #DISTRIBUTED = []
-        #LATERAL = []
+        ftable = open('spe_features.csv', 'r')
+        reader = csv.reader(ftable)
+        self.header = next(reader)
+        feature_lenght = len(self.header) - 1  
+        z = [0] 
+        self.features = z * feature_lenght
+        for line in reader:
+            if(line[0] == phone):
+                self.features = line[1:len(line)]
 
-        
-        self.features = [0, 0, 0, 0]
-
-        if phone in VOWELS:
-            self.features[0] = 1
-        if phone in CONSONANTAL:
-            self.features[1] = 1
-        if phone in VOICED:
-            self.features[2] = 1
-        if phone in NASAL:
-            self.features[3] = 1    
     def getfeatures(self):
-        return self.features
+        return list(map(int, self.features))
     
-    def setfeature(self, index):
-        self.features[index] = 1
+    def setfeature(self, feature):
+        index = self.header.index(feature)
+        self.features[index-1] = 1
 
-    def unsetfeature(self, index):
-        self.features[index] = 0
+    def unsetfeature(self, feature):
+        index = self.header.index(feature)
+        self.features[index-1] = 0
 
 class similarity:
 
@@ -47,5 +34,14 @@ class similarity:
         phone2 = phone(p2)
         p1f = phone1.getfeatures()
         p2f = phone2.getfeatures()
-        print("features {} {}".format(p1f, p2f))
-        return 1 - spatial.distance.cosine(p1f, p2f)
+        return 1.0 - spatial.distance.cosine(p1f, p2f)
+
+
+#    def normsimilarity(sefl, p1, p2):
+#        phone1 = phone(p1)
+#        phone2 = phone(p2)
+#        p1f = np.array(phone1.getfeatures())
+#        p2f = np.array(phone2.getfeatures())
+#        correct_matches = sum(i > 0 for i in list(p1f & p2f))
+#        print(correct_matches)
+#        return correct_matches/len(p1f)

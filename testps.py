@@ -1,18 +1,11 @@
 #!/bin/bash/python3
 
 from ps import phone, similarity;
-p = phone('Z')
-print(p.getfeatures())
+p1 = phone('AE')
+p2 = phone('SIL')
 
-p = phone('X')
-print(p.getfeatures())
-
-print("DEBUG")
 s = similarity()
-print("XXX")
-
-print(s.cosinesimilarity('A', 'X'))
-
-print(s.cosinesimilarity('A', 'E'))
-
-print("cosine sim for U Z {}".format(s.cosinesimilarity('U', 'Z')))
+sim = s.cosinesimilarity('AE', 'SIL')
+print(sim)
+sim = s.normsimilarity('SIL','SIL')
+print(sim)
