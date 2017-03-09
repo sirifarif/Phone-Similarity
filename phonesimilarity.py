@@ -6,15 +6,20 @@ import numpy as np
 
 class phone:
     def __init__(self, phone):
-        ftable = open('spe_features.csv', 'r')
+        ftable = open('spe_features_minusone.csv', 'r')
+        #ftable = open('sampel_feat.csv', 'r')
         reader = csv.reader(ftable)
         self.header = next(reader)
         feature_lenght = len(self.header) - 1  
         z = [0] 
         self.features = z * feature_lenght
+        phone_list = []
         for line in reader:
+            phone_list.append(line[0])
             if(line[0] == phone):
                 self.features = line[1:len(line)]
+        if phone not in phone_list:
+            raise ValueError("Oops! phone {} not in the list".format(phone))
 
     def getfeatures(self):
         return list(map(int, self.features))
