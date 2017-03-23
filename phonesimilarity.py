@@ -6,7 +6,7 @@ import numpy as np
 
 class phone:
     def __init__(self, phone):
-        ftable = open('spe_features_minusone.csv', 'r')
+        ftable = open('spe_features_zeros.csv', 'r')
         #ftable = open('sampel_feat.csv', 'r')
         reader = csv.reader(ftable)
         self.header = next(reader)
@@ -39,14 +39,13 @@ class similarity:
         phone2 = phone(p2)
         p1f = phone1.getfeatures()
         p2f = phone2.getfeatures()
-        return 1.0 - spatial.distance.cosine(p1f, p2f)
+        return round(1.0 - spatial.distance.cosine(p1f, p2f),3)
 
 
-#    def normsimilarity(sefl, p1, p2):
-#        phone1 = phone(p1)
-#        phone2 = phone(p2)
-#        p1f = np.array(phone1.getfeatures())
-#        p2f = np.array(phone2.getfeatures())
-#        correct_matches = sum(i > 0 for i in list(p1f & p2f))
-#        print(correct_matches)
-#        return correct_matches/len(p1f)
+    def normsimilarity(sefl, p1, p2):
+        phone1 = phone(p1)
+        phone2 = phone(p2)
+        p1f = np.array(phone1.getfeatures())
+        p2f = np.array(phone2.getfeatures())
+        correct_matches = sum(i > 0 for i in list(p1f & p2f))
+        return correct_matches/len(p1f)
