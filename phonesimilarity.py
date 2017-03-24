@@ -6,6 +6,7 @@ import numpy as np
 
 class phone:
     def __init__(self, phone):
+        phone = phone.upper()
         ftable = open('spe_features_zeros.csv', 'r')
         #ftable = open('sampel_feat.csv', 'r')
         reader = csv.reader(ftable)
