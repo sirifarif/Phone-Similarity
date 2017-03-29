@@ -33,15 +33,21 @@ class phone:
         index = self.header.index(feature)
         self.features[index-1] = 0
 
-class similarity:
+class distance:
 
-    def cosinesimilarity(self, p1,p2):
+    def cosineDistance(self, p1,p2):
         phone1 = phone(p1)
         phone2 = phone(p2)
         p1f = phone1.getfeatures()
         p2f = phone2.getfeatures()
         return round(spatial.distance.cosine(p1f, p2f),3)
 
+    def jaccardDistance(self, p1,p2):
+        phone1 = phone(p1)
+        phone2 = phone(p2)
+        p1f = phone1.getfeatures()
+        p2f = phone2.getfeatures()
+        return round(spatial.distance.jaccard(p1f, p2f),3)
 
     def normsimilarity(sefl, p1, p2):
         phone1 = phone(p1)
