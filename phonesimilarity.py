@@ -49,6 +49,38 @@ class distance:
         p2f = phone2.getfeatures()
         return round(spatial.distance.jaccard(p1f, p2f),3)
 
+    '''
+    instead of true or false we take each feature and its complement at the same time.
+    For example as nasal and not-nasal
+    '''
+    def jaccardSymetricDistance(self, p1,p2):
+        phone1 = phone(p1)
+        phone2 = phone(p2)
+        p1f = np.asarray(phone1.getfeatures()).astype(np.bool)
+        p1fnot = np.logical_not(p1f)
+        p1comp = np.concatenate((p1f, p1fnot), axis=0)
+
+        p2f = np.asarray(phone2.getfeatures()).astype(np.bool)
+        p2fnot = np.logical_not(p2f)
+        p2comp = np.concatenate((p2f, p2fnot), axis=0)
+
+        return round(spatial.distance.jaccard(p1comp, p2comp),3)
+
+    def simpleMatchingDistance(sefl, p1, p2):
+        phone1 = phone(p1)
+        phone2 = phone(p2)
+        p1f = np.asarray(phone1.getfeatures()).astype(np.bool)
+        p2f = np.asarray(phone2.getfeatures()).astype(np.bool)
+        
+        if p1f.shape != p2f.shape:
+            raise ValueError("Shape mismatch: both phones must have the same shape.")
+    
+        a = np.logical_and(p1f, p2f).sum()
+        b_plus_c = np.logical_xor(p1f, p2f).sum()
+        d = np.logical_not(np.logical_or(p1f, p2f)).sum()
+
+        return float((b_plus_c / (a + b_plus_c + d)))
+    
     def normsimilarity(sefl, p1, p2):
         phone1 = phone(p1)
         phone2 = phone(p2)

@@ -7,6 +7,8 @@ import os
 from phonesimilarity import phone, distance;
 
 sim = distance().jaccardDistance
+#sim = distance().simpleMatchingDistance
+
 
 ftable = open('spe_features_zeros.csv', 'r')
 #ftable = open('sampel_feat.csv', 'r')
@@ -21,6 +23,7 @@ cmatrix = [[0 for x in range(w)] for y in range(h)]
 for i, f in enumerate(phones_list):
     for j, g in enumerate(phones_list):
         cmatrix[i][j] = sim(f,g)
+        #print("smd of {} and {} is {}".format(f, g, sim(f,g)))
 
 mat = np.array(cmatrix)
 mini = np.min(mat, axis=0)
